@@ -8,7 +8,6 @@ import TodoList from './components/TodoList';
 export default function App() {
   return (
     <MantineProvider theme={theme}>
-      <Router />
       <TodoList/>
 
     </MantineProvider>
