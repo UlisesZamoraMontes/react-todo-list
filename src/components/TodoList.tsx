@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button, TextInput, Group, Stack, Card, Text, Badge, ScrollArea, Checkbox, CheckboxIndicator} from '@mantine/core';
+import {Button, TextInput, Group, Stack, Card, Text, Badge, ScrollArea, Checkbox, CheckboxIndicator, Container} from '@mantine/core';
 import {useForm, isNotEmpty} from '@mantine/form'
 import { FormRule } from '@mantine/form/lib/types';
 import { stringify } from 'querystring';
@@ -53,7 +53,8 @@ const TodoList: React.FC = () => {
 
   return (
     <>
-    <div>
+    <Stack h="100vh" p="md" justify="space-between">
+    <Container>
       <form onSubmit={form.onSubmit((values) => addTodoItemToList(values))}>
         <TextInput
             label="Task Title"
@@ -67,36 +68,52 @@ const TodoList: React.FC = () => {
             <Button type='submit'>Add Task</Button>
         </Group>
       </form>
-    </div>
+    </Container>
 
-    <ScrollArea
-        h={250} type="auto">
+<Container bg="gray">
+    <ScrollArea.Autosize
+        mah="400" maw="100%" mx="auto">
         
             <ul>
+              <Stack>
                 {todoListItems.map(todo =>(
                   <Group wrap='nowrap'
-                  align='flex-start'>
+                  align='center'
+                  w='100%'>
                     <Checkbox.Card
                     radius="md" 
+                    p="md"
+                    withBorder
                     checked={todo.completed}
                     onClick={() => toggleTodoCompleted(todo.id)}
                     key={todo.id}
+                    style={{ flex: 1 }}
                     >
                         <Group
                             wrap='nowrap'
-                            align='flex-start'>
+                            align='center'
+                            gap="md">
                         <CheckboxIndicator/>
+                        <div>
                         <Text 
-                        size="sm" 
-                        c="dimmed">
+                        size="xl" 
+                        fw={500}
+                        c="dimmed"
+                        td={todo.completed ? 'line-through' : 'none'}>
                             {todo.taskTitle}
                         </Text>
                         <Text 
                         size="sm" 
-                        c="dimmed">
+                        c="dimmed"
+                        td={todo.completed ? 'line-through' : 'none'}>
                             {todo.taskDescription}
                         </Text>
+                        </div>
                         <Badge 
+                            mt="sm"
+                            px="md"
+                            py={4}
+                            ml="auto"
                             color={todo.completed? 'green':'yellow'}>{todo.completed ? 'Completed' : 'Not Completed'}</Badge>
                             </Group>
                     </Checkbox.Card>
@@ -104,10 +121,13 @@ const TodoList: React.FC = () => {
                     </Group>
                     
                 ))}
+                </Stack>
             </ul>
 
         
-    </ScrollArea>
+    </ScrollArea.Autosize>
+    </Container>
+    </Stack>
     </>
 
   );
