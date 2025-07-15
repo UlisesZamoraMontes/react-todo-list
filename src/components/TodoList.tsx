@@ -46,6 +46,10 @@ const TodoList: React.FC = () => {
         prev.map(todo =>
             todo.id === id?{...todo, completed: !todo.completed}:todo))
   };
+  const deleteTodoTask = (id: number) =>{
+    setTodoListItems(prev =>
+      prev.filter((todo) => todo.id !== id));
+  };
 
   return (
     <>
@@ -70,6 +74,8 @@ const TodoList: React.FC = () => {
         
             <ul>
                 {todoListItems.map(todo =>(
+                  <Group wrap='nowrap'
+                  align='flex-start'>
                     <Checkbox.Card
                     radius="md" 
                     checked={todo.completed}
@@ -94,6 +100,9 @@ const TodoList: React.FC = () => {
                             color={todo.completed? 'green':'yellow'}>{todo.completed ? 'Completed' : 'Not Completed'}</Badge>
                             </Group>
                     </Checkbox.Card>
+                    <Button variant="light" color="red" onClick={()=>deleteTodoTask(todo.id)}>Delete</Button>
+                    </Group>
+                    
                 ))}
             </ul>
 
