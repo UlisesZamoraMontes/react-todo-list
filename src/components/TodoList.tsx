@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Button, TextInput, Group, Stack, Card, Text, Badge, ScrollArea, Checkbox, CheckboxIndicator, Container} from '@mantine/core';
 import {useForm, isNotEmpty} from '@mantine/form'
+import { TagsInput } from '@mantine/core';
 import { FormRule } from '@mantine/form/lib/types';
 import { stringify } from 'querystring';
 
@@ -9,10 +10,12 @@ interface TodoItem {
   taskTitle: string;
   taskDescription: string;
   completed: boolean;
+  filter: string;
 }
 
 const TodoList: React.FC = () => {
   const [todoListItems, setTodoListItems] = useState<TodoItem[]>([]);
+  const [filters, setFilters] = useState<string[]>([]);
 
   const addTodoItemToList = (values: typeof form.values) => {
     const newTodoItem : TodoItem = {
@@ -20,7 +23,9 @@ const TodoList: React.FC = () => {
         taskTitle: values.taskTitle,
         taskDescription: values.taskDescription,
         completed: values.completed,
+        filter: values.filter,
     };
+
     setTodoListItems((prevTodoListItems) => [
       ...prevTodoListItems,
       newTodoItem,
@@ -34,6 +39,7 @@ const TodoList: React.FC = () => {
         taskTitle: "",
         taskDescription:"",
         completed: false,
+        filter: "",
     },
     validate:{
         taskTitle: isNotEmpty('Please  add a title to the task'),
@@ -64,10 +70,21 @@ const TodoList: React.FC = () => {
             label="Task Description"
             placeholder='Please describe the task to add to the To-Do list'   
             {...form.getInputProps('taskDescription')}/>
+            <TextInput 
+            label="Filter to Add"
+            {...form.getInputProps('filter')}/>
         <Group justify='flex-end' mt="md">
             <Button type='submit'>Add Task</Button>
         </Group>
       </form>
+    </Container>
+
+    <Container>
+
+  <TagsInput
+    label="Press Enter to summit a tag for filter"
+    placeholder='Enter Filter' data={[]} value={filters} onChange={setFilters} />
+
     </Container>
 
 <Container bg="gray">
@@ -114,6 +131,11 @@ const TodoList: React.FC = () => {
                             py={4}
                             ml="auto"
                             color={todo.completed? 'green':'yellow'}>{todo.completed ? 'Completed' : 'Not Completed'}</Badge>
+                            <Badge 
+                            mt="sm"
+                            px="md"
+                            py={4}
+                            ml="auto">{todo.filter}</Badge>
                             </Group>
                     </Checkbox.Card>
                     <Button variant="light" color="red" onClick={()=>deleteTodoTask(todo.id)}>Delete</Button>
