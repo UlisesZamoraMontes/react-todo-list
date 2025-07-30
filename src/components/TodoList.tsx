@@ -53,8 +53,8 @@ const TodoList: React.FC = () => {
 
   return (
     <>
-    <Stack h="100vh" p="md" justify="space-between">
-    <Container>
+    <Stack h="100vh" p="md" justify="space-between" bg="gray">
+    <Container bg="gray">
       <form onSubmit={form.onSubmit((values) => addTodoItemToList(values))}>
         <TextInput
             label="Task Title"
@@ -98,13 +98,12 @@ const TodoList: React.FC = () => {
                         <Text 
                         size="xl" 
                         fw={500}
-                        c="dimmed"
                         td={todo.completed ? 'line-through' : 'none'}>
                             {todo.taskTitle}
                         </Text>
+                        
                         <Text 
                         size="sm" 
-                        c="dimmed"
                         td={todo.completed ? 'line-through' : 'none'}>
                             {todo.taskDescription}
                         </Text>
